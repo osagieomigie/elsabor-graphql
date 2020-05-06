@@ -1,0 +1,22 @@
+{
+  "name": "elsabor-graphql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/osagieomigie/elsabor-graphql.git"
+  },
+  "author": "Osagie Omigie",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/osagieomigie/elsabor-graphql/issues"
+  },
+  "homepage": "https://github.com/osagieomigie/elsabor-graphql#readme",
+  "dependencies": {
+    "apollo-server-express": "^2.13.0"
+  }
+}
