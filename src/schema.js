@@ -28,6 +28,25 @@ const schema = gql `
         userId: String!
         dealId: String!
     }
+
+    input UserInput{
+        userId: String
+        email: String
+        userName: String
+    }
+
+    input DealInput{
+        dealId: String!
+    }
+
+    type Query{
+        user(input: UserInput): User!
+        """Can be used for returning all available deals, and when searching for specific deals"""
+        deals(input: DealInput): [Deal]
+        deal(input: DealInput): Deal!
+        menu: [Menu]
+        savedDeals(input: UserInput): [Deal]
+    }
 `
 
 module.exports = schema;
