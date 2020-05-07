@@ -30,13 +30,24 @@ const schema = gql `
     }
 
     input UserInput{
-        userId: String
+        userId: String!
         email: String
         userName: String
     }
 
+    input MenuInput{
+        userId: String!
+        menuId: String
+        link: String
+    }
+
     input DealInput{
-        dealId: String!
+        dealId: String
+        userId: String
+        name: String 
+        description: String
+        link: String 
+        expiryDate: String
     }
 
     type Query{
@@ -46,6 +57,13 @@ const schema = gql `
         deal(input: DealInput): Deal!
         menu: [Menu]
         savedDeals(input: UserInput): [Deal]
+    }
+
+    type Mutation{
+        deleteUser(input: UserInput): User!
+        addDeal(input: DealInput): Deal!
+        addSavedDeal(input: DealInput): Deal!
+        addMenu(input: MenuInput): Menu!
     }
 `
 
