@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/osagieomigie/elsabor-graphql#readme",
   "dependencies": {
-    "apollo-server-express": "^2.13.0"
+    "apollo-server-express": "^2.13.0",
+    "firebase-admin": "^8.12.1"
   }
 }

@@ -2,10 +2,10 @@ const {gql} = require("apollo-server-express")
 
 const schema = gql `
     type User{
-        userId: String!
-        email: String!
-        username: String!
-        type: Int!
+        userId: String
+        email: String
+        username: String
+        type: Int
         link: String
     }
 
@@ -51,6 +51,7 @@ const schema = gql `
     }
 
     type Query{
+        """userId needed to query for a user"""
         user(input: UserInput): User!
         """Can be used for returning all available deals, and when searching for specific deals"""
         deals(input: DealInput): [Deal]
