@@ -53,8 +53,9 @@ const schema = gql `
     type Query{
         """userId needed to query for a user"""
         user(input: UserInput): User!
-        """Can be used for returning all available deals, and when searching for specific deals"""
-        deals(input: DealInput): [Deal]
+        """Returns all available deals"""
+        deals: [Deal]
+        dealSearch(input: DealInput): [Deal]
         deal(input: DealInput): Deal!
         menu: [Menu]
         savedDeals(input: UserInput): [Deal]

@@ -29,16 +29,24 @@ module.exports = {
 
             return getDoc;
         }, 
-        deals(_, {input}, {db}){
-            return{
-                dealId: "testDeal1",
-                userId: "test1",
-                name: "deal",
-                description: "descp",
-                link: "link_",
-                expiryDate: "10-02-21"
-            }
-        },
+        async deals(){
+            let deal = db.collection('Deal');
+            let getDoc = await deal.get()
+            .then(doc => {
+                if (!doc.docs) {
+                    console.log('No deals available!');
+                } else {
+                    let result = [];
+                    doc.docs.forEach(element => result.push({dealId: element.id, ...element.data()}));
+                    return result
+                }
+            })
+            .catch(err => {
+                console.log('Error getting documents', err);
+            });
+
+            return getDoc;
+        }, 
         deal(_, {input}, {db}){
             return{
                 dealId: "testDeal1",
