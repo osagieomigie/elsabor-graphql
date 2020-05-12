@@ -11,7 +11,6 @@ const db = admin.firestore();
 module.exports = {
     Query: {
         async user(_, {input}){
-            console.log(input.userName);
             let user = db.collection('users').doc(`${input.userId}`);
             let getDoc = await user.get()
             .then(doc => {
@@ -47,16 +46,23 @@ module.exports = {
 
             return getDoc;
         }, 
-        deal(_, {input}, {db}){
-            return{
-                dealId: "testDeal1",
-                userId: "test1",
-                name: "deal",
-                description: "descp",
-                link: "link_",
-                expiryDate: "10-02-21"
-            }
-        },
+        async deal(_, {input}){
+            let deal = db.collection('Deal').doc(`${input.dealId}`);
+            let getDoc = await deal.get()
+            .then(doc => {
+                if (!doc.exists) {
+                    console.log('No such document!');
+                } else {
+                    console.log('Document data:', doc.data());
+                    return { dealId: doc.id, ...doc.data()}
+                }
+            })
+            .catch(err => {
+                console.log('Error getting document', err);
+            });
+
+            return getDoc;
+        }, 
         savedDeals(_, {input}, {db}){
             return{
                 dealId: "testDeal1",
