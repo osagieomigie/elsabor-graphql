@@ -63,15 +63,37 @@ module.exports = {
 
             return getDoc;
         }, 
-        savedDeals(_, {input}, {db}){
-            return{
-                dealId: "testDeal1",
-                userId: "test1",
-                name: "deal",
-                description: "desp",
-                link: "link_",
-                expiryDate: "10-02-21"
-            }
+        async savedDeals(_, {input}){
+            console.log(`UserId: ${input.userId}`);
+            let deal = db.collection("savedDeals");
+            let getDoc = await deal.where("userId", "==", `${input.userId}`).get()
+            .then(doc => {
+                if (!doc.docs) {
+                    console.log('No deals available!');
+                } else {
+                    let promises = [];
+                    doc.docs.forEach(element => {
+                        console.log(`element ${element.data().dealId}, userId: ${element.data().userId}`);
+                        promises.push(
+                            db.collection("Deal").doc(element.data().dealId).get() // join dealID from savedDeals collection to Deals collection
+                        )
+                    }); // join by ID 
+                    return Promise.all([...promises])
+                }
+            })
+            .then(doc =>{ // once all the join promises are done, return result
+                let result = [];
+                doc.forEach(element => {
+                    result.push({ dealId: element.id, ...element.data()})
+                });
+                console.log(result);
+                return result;
+            })
+            .catch(err => {
+                console.log('Error getting documents', err);
+            });
+
+            return getDoc;
         },
         menu(){
             return{
