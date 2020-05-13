@@ -95,12 +95,23 @@ module.exports = {
 
             return getDoc;
         },
-        menu(){
-            return{
-                menuId: "test-menu",
-                userId: "testM",
-                link: "link_"
-            }
+        async menu(){
+            let menu = db.collection('menu');
+            let getDoc = await menu.get()
+            .then(doc => {
+                if (!doc.docs) {
+                    console.log('No menus available!');
+                } else {
+                    let result = [];
+                    doc.docs.forEach(element => result.push({menuId: element.id, ...element.data()}));
+                    return result
+                }
+            })
+            .catch(err => {
+                console.log('Error getting documents', err);
+            });
+
+            return getDoc;
         }
     }
 }
