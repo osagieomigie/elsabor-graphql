@@ -126,7 +126,7 @@ module.exports = {
                     if (!doc.exists) {
                         console.log('No such document!');
                     } else {
-                        db.collection("users").doc(input.userId).delete() // delete from user table
+                        doc.ref.delete(); // delete from user table
                         result = { userId: doc.id, ...doc.data()}
                     }
                 })
