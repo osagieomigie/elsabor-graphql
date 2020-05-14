@@ -113,5 +113,49 @@ module.exports = {
 
             return getDoc;
         }
+    },
+
+    Mutation:{
+        async deleteUser(_, {input}){
+            let result = {}
+        
+            try{
+                // get user info to return back to client
+                await db.collection('users').doc(`${input.userId}`).get()
+                .then(doc => {
+                    if (!doc.exists) {
+                        console.log('No such document!');
+                    } else {
+                        db.collection("users").doc(input.userId).delete() // delete from user table
+                        result = { userId: doc.id, ...doc.data()}
+                    }
+                })
+                .catch(err => {
+                    console.log('Error getting document', err);
+                });
+
+                // delete reference in savedDeals table
+                db.collection("savedDeals").where("userId", "==", input.userId)
+                .then(doc => {
+                    doc.forEach(element => element.ref.delete()); 
+                })
+                .catch(e => {
+                    console.log(`Error deleting: ${e}`);
+                })
+
+                // delete reference in Deal table
+                db.collection("Deal").where("userId", "==", input.userId)
+                .then(doc => {
+                    doc.forEach(element => element.ref.delete()); 
+                })
+                .catch(e => {
+                    console.log(`Error deleting: ${e}`);
+                })
+            }catch(e){
+                console.log(`No other references: ${e}`);
+            }
+            
+            return result 
+        }
     }
 }
