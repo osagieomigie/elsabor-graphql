@@ -184,9 +184,31 @@ module.exports = {
         .add({ ...input })
         .then((ref) => {
           return { dealId: ref.id, ...input }; // return Deal back to client
+        })
+        .catch((e) => {
+          console.log(`Error: ${e}`);
         });
 
       return deal;
+    },
+
+    async addSavedDeal(_, { input }) {
+      let result = {};
+      try {
+        await db.collection("savedDeals").add({ ...input }); // add deal to savedDeals collection
+        await db
+          .collection("Deal")
+          .doc(input.dealId)
+          .get()
+          .then((doc) => {
+            console.log(doc.data());
+            result = { dealId: doc.id, ...doc.data() }; // return Deal back to client
+          });
+      } catch (e) {
+        console.log(`Error: ${e}`);
+      }
+
+      return result;
     },
   },
 };
