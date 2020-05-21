@@ -210,5 +210,19 @@ module.exports = {
 
       return result;
     },
+
+    async addMenu(_, { input }) {
+      let menu = await db
+        .collection("menu")
+        .add({ ...input })
+        .then((ref) => {
+          return { menuId: ref.id, ...input }; // return menu back to client
+        })
+        .catch((e) => {
+          console.log(`Error: ${e}`);
+        });
+
+      return menu;
+    },
   },
 };
