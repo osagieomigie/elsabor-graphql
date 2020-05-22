@@ -20,7 +20,7 @@ module.exports = {
           } else {
             console.log("Document data:", doc.data());
             console.log(`doc ID: ${doc.id}`);
-            return { userId: doc.id, ...doc.data() };
+            return { id: doc.id, userId: doc.id, ...doc.data() };
           }
         })
         .catch((err) => {
@@ -39,7 +39,11 @@ module.exports = {
           } else {
             let result = [];
             doc.docs.forEach((element) =>
-              result.push({ dealId: element.id, ...element.data() })
+              result.push({
+                id: element.id,
+                dealId: element.id,
+                ...element.data(),
+              })
             );
             return result;
           }
@@ -59,7 +63,7 @@ module.exports = {
             console.log("No such document!");
           } else {
             console.log("Document data:", doc.data());
-            return { dealId: doc.id, ...doc.data() };
+            return { id: doc.id, dealId: doc.id, ...doc.data() };
           }
         })
         .catch((err) => {
@@ -96,7 +100,11 @@ module.exports = {
           // once all the join promises are done, return result
           let result = [];
           doc.forEach((element) => {
-            result.push({ dealId: element.id, ...element.data() });
+            result.push({
+              id: element.id,
+              dealId: element.id,
+              ...element.data(),
+            });
           });
           console.log(result);
           return result;
@@ -117,7 +125,11 @@ module.exports = {
           } else {
             let result = [];
             doc.docs.forEach((element) =>
-              result.push({ menuId: element.id, ...element.data() })
+              result.push({
+                id: element.id,
+                menuId: element.id,
+                ...element.data(),
+              })
             );
             return result;
           }
@@ -131,6 +143,16 @@ module.exports = {
   },
 
   Mutation: {
+    async addUser(_, { input }) {
+      db.collection("users")
+        .add({ ...input })
+        .then((ref) => {
+          return { id: ref.id, userId: ref.id, ...input };
+        })
+        .catch((e) => {
+          console.log(`Error: ${e}`);
+        });
+    },
     async deleteUser(_, { input }) {
       let result = {};
 
@@ -145,7 +167,7 @@ module.exports = {
               console.log("No such document!");
             } else {
               doc.ref.delete(); // delete from user table
-              result = { userId: doc.id, ...doc.data() };
+              result = { id: doc.id, userId: doc.id, ...doc.data() };
             }
           })
           .catch((err) => {
@@ -183,7 +205,7 @@ module.exports = {
         .collection("Deal")
         .add({ ...input })
         .then((ref) => {
-          return { dealId: ref.id, ...input }; // return Deal back to client
+          return { id: ref.id, dealId: ref.id, ...input }; // return Deal back to client
         })
         .catch((e) => {
           console.log(`Error: ${e}`);
@@ -202,7 +224,7 @@ module.exports = {
           .get()
           .then((doc) => {
             console.log(doc.data());
-            result = { dealId: doc.id, ...doc.data() }; // return Deal back to client
+            result = { id: doc.id, dealId: doc.id, ...doc.data() }; // return Deal back to client
           });
       } catch (e) {
         console.log(`Error: ${e}`);
@@ -216,7 +238,7 @@ module.exports = {
         .collection("menu")
         .add({ ...input })
         .then((ref) => {
-          return { menuId: ref.id, ...input }; // return menu back to client
+          return { id: ref.id, menuId: ref.id, ...input }; // return menu back to client
         })
         .catch((e) => {
           console.log(`Error: ${e}`);

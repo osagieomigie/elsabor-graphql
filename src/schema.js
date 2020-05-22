@@ -2,6 +2,7 @@ const { gql } = require("apollo-server-express");
 
 const schema = gql`
   type User {
+    id: String
     userId: String
     email: String
     username: String
@@ -10,6 +11,7 @@ const schema = gql`
   }
 
   type Deal {
+    id: String
     dealId: String!
     userId: String!
     name: String!
@@ -19,12 +21,14 @@ const schema = gql`
   }
 
   type Menu {
+    id: String
     menuId: String!
     userId: String!
     link: String
   }
 
   type SavedDeals {
+    id: String
     userId: String!
     dealId: String!
   }
@@ -80,6 +84,7 @@ const schema = gql`
   }
 
   type Mutation {
+    addUser(input: UserInput): User!
     deleteUser(input: UserInput): User!
     addDeal(input: AddDealInput): Deal!
     addSavedDeal(input: addSavedDealInput): Deal!
