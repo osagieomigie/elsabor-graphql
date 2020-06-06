@@ -39,6 +39,13 @@ const schema = gql`
     userName: String
   }
 
+  input AddUserInput {
+    email: String!
+    userName: String
+    type: Int!
+    link: String
+  }
+
   input MenuInput {
     userId: String!
     menuId: String
@@ -84,7 +91,7 @@ const schema = gql`
   }
 
   type Mutation {
-    addUser(input: UserInput): User!
+    addUser(input: AddUserInput): User!
     deleteUser(input: UserInput): User!
     addDeal(input: AddDealInput): Deal!
     addSavedDeal(input: addSavedDealInput): Deal!
