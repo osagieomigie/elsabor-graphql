@@ -36,12 +36,12 @@ const schema = gql`
   input UserInput {
     userId: String!
     email: String
-    userName: String
+    username: String
   }
 
   input AddUserInput {
     email: String!
-    userName: String
+    username: String
     type: Int!
     link: String
   }

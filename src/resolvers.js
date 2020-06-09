@@ -144,14 +144,18 @@ module.exports = {
 
   Mutation: {
     async addUser(_, { input }) {
-      db.collection("users")
+      let result = {};
+      let userInfo = await db
+        .collection("users")
         .add({ ...input })
         .then((ref) => {
+          console.log(`ref: ${ref.id}`);
           return { id: ref.id, userId: ref.id, ...input };
         })
         .catch((e) => {
           console.log(`Error: ${e}`);
         });
+      return userInfo;
     },
     async deleteUser(_, { input }) {
       let result = {};
