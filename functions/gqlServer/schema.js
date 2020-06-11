@@ -34,7 +34,7 @@ const schema = gql`
   }
 
   input UserInput {
-    userId: String!
+    userId: String
     email: String
     username: String
   }
@@ -80,6 +80,12 @@ const schema = gql`
     userId needed to query for a user
     """
     user(input: UserInput): User!
+
+    """
+    used when a user's ID is unknown e.g. at login
+    """
+    loginQuery(input: UserInput): User!
+
     """
     Returns all available deals
     """

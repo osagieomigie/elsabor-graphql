@@ -29,6 +29,32 @@ module.exports = {
 
       return getDoc;
     },
+    async loginQuery(_, { input }) {
+      let result = {};
+      let user = db.collection("users").where("email", "==", input.email);
+      let getDoc = await user
+        .get()
+        .then((doc) => {
+          if (!doc.docs) {
+            console.log("No such document!");
+          } else {
+            doc.docs.forEach((userDoc) => {
+              result = {
+                id: userDoc.id,
+                userId: userDoc.id,
+                ...userDoc.data(),
+              };
+            });
+
+            return result;
+          }
+        })
+        .catch((err) => {
+          console.log("Error getting document", err);
+        });
+
+      return getDoc;
+    },
     async deals() {
       let deal = db.collection("Deal");
       let getDoc = await deal
