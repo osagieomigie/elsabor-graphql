@@ -235,6 +235,10 @@ module.exports = {
         .collection("Deal")
         .add({ ...input })
         .then((ref) => {
+          db.collection("savedDeals").add({
+            userId: input.userId,
+            dealId: ref.id,
+          }); // add deal to savedDeals collection
           return { id: ref.id, dealId: ref.id, ...input }; // return Deal back to client
         })
         .catch((e) => {
